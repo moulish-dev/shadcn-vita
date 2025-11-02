@@ -1,7 +1,8 @@
 name: Deploy MkDocs (Shadcn)
+
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   workflow_dispatch:
 
 permissions:
@@ -9,16 +10,28 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - run: pip install mkdocs mkdocs-shadcn pymdown-extensions
-      - run: mkdocs build --strict
+          python-version: "3.12"   # or 3.13 if you prefer
+
+      - name: Install deps
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs mkdocs-shadcn pymdown-extensions
+
+      - name: Build site
+        run: mkdocs build --strict
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -27,6 +40,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
