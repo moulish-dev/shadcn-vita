@@ -1,0 +1,37 @@
+site_name: YourProject
+site_description: Build faster. Document beautifully.
+site_url: https://moulish-dev.github.io/shadcn-vita/
+repo_url: https://github.com/moulish-dev/shadcn-vita
+repo_name: <your-username>/<yourproject-docs>
+
+theme:
+  name: shadcn
+  show_title: true
+  show_stargazers: true
+  icon: heroicons:rocket-launch
+  topbar_sections: false
+  pygments_style:
+    light: shadcn-light
+    dark: github-dark
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed
+
+# Optional analytics (pick one and fill your ID)
+# extra:
+#   analytics:
+#     provider: google
+#     property: G-XXXXXXX
+# extra_javascript:
+#   - https://plausible.io/js/script.js
